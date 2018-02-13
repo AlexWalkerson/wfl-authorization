@@ -1,0 +1,61 @@
+$xs: 480px !default;       $xs-1: $xs - 1px !default;
+$sm: 768px !default;       $sm-1: $sm - 1px !default;
+$md: 992px !default;       $md-1: $md - 1px !default;
+$lg: 1200px !default;      $lg-1: $lg - 1px !default;
+
+@mixin hidden-ss {
+  @media (max-width: $xs-1) {
+    display: none;
+  }
+}
+@mixin hidden-xs {
+  @media (min-width: $xs) and (max-width: $sm-1) {
+    display: none;
+  }
+}
+@mixin hidden-sm {
+  @media (min-width: $sm) and (max-width: $md-1) {
+    display: none;
+  }
+}
+@mixin hidden-md {
+  @media (min-width: $md) and (max-width: $lg-1) {
+    display: none;
+  }
+}
+@mixin hidden-lg {
+  @media (min-width: $lg) {
+    display: none;
+  }
+}
+
+@mixin visible-ss($display: block){
+  display: none;
+  @media (max-width: $xs-1) {
+    display: $display;
+  }
+}
+@mixin visible-xs($display: block){
+  display: none;
+  @media (min-width: $xs) and (max-width: $sm-1) {
+    display: $display;
+  }
+}
+@mixin visible-sm($display: block) {
+ display: none;
+ @media (min-width: $sm) and (max-width: $md-1) {
+   display: $display;
+ }
+}
+@mixin visible-md($display: block) {
+  display: none;
+  @media (min-width: $md) and (max-width: $lg-1) {
+    display: $display;
+  }
+}
+@mixin visible-lg($display: block) {
+  display: none;
+  @media (min-width: $lg) {
+    display: $display;
+  }
+}

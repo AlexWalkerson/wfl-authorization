@@ -1,0 +1,124 @@
+$grid-columns: 12 !default;
+$grid-gutter-width: 30px !default;
+$xs: 480px !default;
+$sm: 768px !default;
+$md: 992px !default;
+$lg: 1200px !default;
+
+@mixin make-col (
+  $ss-col,
+  $xs-col: $ss-col, 
+  $sm-col: $xs-col, 
+  $md-col: $sm-col, 
+  $lg-col: $md-col )
+{
+  position: relative;
+  min-height: 1px;
+  padding-left:  ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
+  float: left;
+
+  width: percentage(($ss-col / $grid-columns));
+
+  @if $ss-col != $xs-col {
+    @media (min-width: $xs) {   
+      width: percentage(($xs-col / $grid-columns));
+    }
+  }
+  @if $sm-col != $xs-col {
+    @media (min-width: $sm) {    
+      width: percentage(($sm-col / $grid-columns));
+    }
+  } 
+  @if $md-col != $sm-col {
+    @media (min-width: $md) {
+      width: percentage(($md-col / $grid-columns));
+    }
+  }
+  @if $lg-col != $md-col {
+    @media (min-width: $lg) {
+      width: percentage(($lg-col / $grid-columns));
+    }
+  }
+}
+// example @include make-col(6, 4, 3, 2, 1);
+
+@mixin make-grid-columns($i: 1, $list: "%col-xs-#{$i}, %col-sm-#{$i}, %col-md-#{$i}, %col-lg-#{$i}") {
+  @for $i from (1 + 1) through $grid-columns {
+    $list: "#{$list}, %col-xs-#{$i}, %col-sm-#{$i}, %col-md-#{$i}, %col-lg-#{$i}";
+  }
+  #{$list} {
+    position: relative;
+    // Prevent columns from collapsing when empty
+    min-height: 1px;
+    // Inner gutter via padding
+    padding-left:  ceil(($grid-gutter-width / 2));
+    padding-right: floor(($grid-gutter-width / 2));
+    float: left; 
+  }
+}
+
+@mixin calc-grid-column($index, $class, $type) {
+  @if ($type == width) and ($index > 0) {
+    %col-#{$class}-#{$index} {
+      width: percentage(($index / $grid-columns));
+    }
+  }
+  @if ($type == push) and ($index > 0) {
+    %col-#{$class}-push-#{$index} {
+      left: percentage(($index / $grid-columns));
+    }
+  }
+  @if ($type == push) and ($index == 0) {
+    %col-#{$class}-push-0 {
+      left: auto;
+    }
+  }
+  @if ($type == pull) and ($index > 0) {
+    %col-#{$class}-pull-#{$index} {
+      right: percentage(($index / $grid-columns));
+    }
+  }
+  @if ($type == pull) and ($index == 0) {
+    %col-#{$class}-pull-0 {
+      right: auto;
+    }
+  }
+  @if ($type == offset) {
+    %col-#{$class}-offset-#{$index} {
+      margin-left: percentage(($index / $grid-columns));
+    }
+  }
+}
+
+// [converter] This is defined recursively in LESS, but Sass supports real loops
+@mixin loop-grid-columns($columns, $class, $type) {
+  @for $i from 0 through $columns {
+    @include calc-grid-column($i, $class, $type);
+  }
+}
+
+// Create grid for specific class
+@mixin make-grid($class) {
+  @include loop-grid-columns($grid-columns, $class, width);
+  @include loop-grid-columns($grid-columns, $class, pull);
+  @include loop-grid-columns($grid-columns, $class, push);
+  @include loop-grid-columns($grid-columns, $class, offset);
+}
+
+
+@mixin container-fixed($gutter: $grid-gutter-width) {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:  floor(($gutter / 2));
+  padding-right: ceil(($gutter / 2));
+}
+
+// Creates a wrapper for a series of columns
+@mixin make-row($gutter: $grid-gutter-width) {
+  margin-left:  ceil(($gutter / -2));
+  margin-right: floor(($gutter / -2));
+}
+
+
+

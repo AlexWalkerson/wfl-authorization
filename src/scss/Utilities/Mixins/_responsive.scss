@@ -1,0 +1,25 @@
+//Only for IE
+@mixin fix-ie {
+  @if $fix-ie {
+    @content;
+  }
+}
+//Other browsers
+@mixin fix-all {
+  @if $fix-ie == false {
+    @content;
+  }
+}
+
+
+@mixin respond($width, $extrema: min) {  
+    @media (#{$extrema}-width: $width) {
+      @content;
+    }
+}
+
+@mixin respond-and($min-width, $max-width) {
+  	@media (min-width: $min-width) and (max-width: $max-width) {
+			@content;
+		}
+}

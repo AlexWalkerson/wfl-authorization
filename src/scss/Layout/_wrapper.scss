@@ -1,0 +1,31 @@
+
+.container-fluid {
+  @include container-fixed;
+}
+.row {
+  @include make-row;
+}
+.container-fluid, .row {
+  @include clearfix;
+}
+
+@include make-grid-columns;
+
+@include make-grid(xs);
+
+@include respond($sm){
+  @include make-grid(sm);
+}
+@include respond($md){
+  @include make-grid(md);
+}
+@include respond($lg){
+  @include make-grid(lg);
+}
+
+.container-fluid {
+  width: 100%;
+}
+.wrapper {
+  margin: 0 auto;
+}

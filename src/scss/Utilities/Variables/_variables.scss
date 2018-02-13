@@ -1,0 +1,33 @@
+$font-family-base:  sans-serif;
+$font-size-base: 16px;
+$line-height-base: 1;
+$font-weight: 400;
+
+//Screen:
+$ss: 320px;				
+$xs: 480px;				$xs-1: $xs - 1px;
+$sm: 768px;				$sm-1: $sm - 1px;
+$md: 992px;				$md-1: $md - 1px;
+$lg: 1200px;			$lg-1: $lg - 1px;
+
+$grid-gutter-width: 30px;
+
+//Colors
+$c-black:	#000;
+$c-blue: 	#00f;
+$c-red: 	#f00;
+$c-white: #fff;
+$c-grey: 	#ccc;
+
+$text-color: $c-black;
+$body-bg: $c-white;
+
+//Links
+$link-color: $c-blue;
+$link-decoration: none;
+$link-hover-color: $c-red;
+$link-hover-decoration: none;
+
+
+
+

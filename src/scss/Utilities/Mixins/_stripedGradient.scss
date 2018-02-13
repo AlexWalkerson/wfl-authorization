@@ -1,0 +1,35 @@
+/// Stripe builder
+/// @author Hugo Giraudel
+/// @param {Direction} $direction - Gradient direction
+/// @param {List} $colors - List of colors
+/// @output `background-image` if several colors, `background-color` if only one
+@mixin stripes($direction, $colors) {
+  $length: length($colors);
+  
+  @if $length > 1 {
+    $stripes: ();
+    
+    @for $i from 1 through $length {
+      $stripe: (100% / $length) * ($i - 1);
+      
+      @if $i > 1 {
+        $stripes: append($stripes, nth($colors, $i - 1) $stripe, comma);
+      }
+      
+      $stripes: append($stripes, nth($colors, $i) $stripe, comma);
+    }
+    
+    background-image: linear-gradient($direction, $stripes);
+    } @else if $length == 1 {
+      background-color: $colors;
+    }
+  }
+
+// scss:
+// body {
+//   @include stripes(to right, #8e44ad #2c3e50 #2980b9 #16a085 #27ae60);
+// }
+// css:
+// body:
+//   background-image: linear-gradient(to right, #8e44ad 0%, #8e44ad 20%, #2c3e50 20%, #2c3e50 40%, #2980b9 40%, #2980b9 60%, #16a085 60%, #16a085 80%, #27ae60 80%);
+// }
