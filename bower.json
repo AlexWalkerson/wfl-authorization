@@ -1,9 +1,11 @@
 {
-  "name": "angular-app",
+  "name": "angular-authorization",
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "1.5.x",
+    "angular": "latest",
+    "angular-ui-router": "latest",
+    "angular-cookies": "^1.6.9"
   }
 }

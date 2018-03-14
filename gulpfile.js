@@ -3,7 +3,7 @@
 /* Configuration */
 const phpEnabled = true;
 const appDir = './';
-const serverUrl = 'http://my.app';	
+const serverUrl = 'http://angularjs-auth';	
 
 const	gulp 					= require('gulp'),
 			rename 				= require("gulp-rename"),
@@ -32,8 +32,7 @@ let path = {
 		watch: [appDir+'src/**/*.html'],
 	},
 	js: {
-		src: appDir+'src/js/*.js',
-		srcApp: appDir+'src/js/app.js',
+		src: [appDir+'src/js/*.js', '!'+appDir+'src/js/vendor.js'],
 		build: appDir+'build/js/',
 		srcDir: 'src/js/',
 		buildDir: 'build/js/',
@@ -120,19 +119,14 @@ gulp.task('tpl-watch', ['tpl'], function (done) {
 });
 
 //JS Task
-gulp.task('js-vendor', function () {   		
-	return gulp.src(path.js.vendor.src) 
-		.pipe(rigger())
-		.on('error', function (err) {
-			console.log(err.message);
-			this.emit('end');
-		})
-		.pipe(gulp.dest(path.js.build));
-});
-gulp.task('js-app', function () { 
-	return gulp.src(path.js.srcApp) 
-		.pipe(rigger())
+gulp.task('js', ['js-vendor', 'js-app']);
+
+gulp.task('js-app', function(){
+		gulp.src(path.js.src)
+		.pipe(jshint({"esversion": 6, "strict": "global", "browser": true, "devel": true, "globals": { "angular": false} }))
+		.pipe(jshint.reporter('unix'))
 		.pipe(sourcemaps.init()) 
+		.pipe(rigger())
 		.pipe(babel({
 			"presets": [
 				[__dirname+'/node_modules/babel-preset-env', {
@@ -151,12 +145,10 @@ gulp.task('js-app', function () {
 		.pipe(gulp.dest(path.js.build));
 });
 
-gulp.task('js', ['js-vendor', 'js-app']);
-
 gulp.task('js-watch', function (done) {
 	gulp.src(path.js.watch)
-		.pipe(jshint({"esversion": 6, "strict": "global", "browser": true, "devel": true}))
-		.pipe(jshint.reporter('default'))
+		.pipe(jshint({"esversion": 6, "strict": "global", "browser": true, "devel": true, "globals": { "angular": false} }))
+		.pipe(jshint.reporter('unix'))
 		.pipe(sourcemaps.init()) 
 		.pipe(rigger())
 		.pipe(babel({
@@ -179,6 +171,17 @@ gulp.task('js-watch', function (done) {
     browserSync.reload();
     done();
 });
+
+gulp.task('js-vendor', function () {   		
+	return gulp.src(path.js.vendor.src) 
+		.pipe(rigger())
+		.on('error', function (err) {
+			console.log(err.message);
+			this.emit('end');
+		})
+		.pipe(gulp.dest(path.js.build));
+});
+
 gulp.task('js-vendor-watch', ['js-vendor'], function (done) {
 	browserSync.reload();
 	done();

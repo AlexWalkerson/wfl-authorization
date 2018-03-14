@@ -1,5 +1,8 @@
 'use strict';
 
-// Define the `myApp` module
-angular.module('myApp', [
+// Define the `app` module
+angular.module('app', [
+	'wflAuthorization',
+	'test',
+	'ui.router',
 ]);
